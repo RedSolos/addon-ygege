@@ -1,0 +1,18 @@
+name: "Ygégé"
+description: "High-performance indexer for YGG Torrent written in Rust."
+version: "1.0.0"
+slug: "ygege"
+init: false
+arch:
+  - aarch64
+  - amd64
+  - armv7
+ports:
+  8715/tcp: 8715
+map:
+  - config:rw
+options:
+  log_level: info
+schema:
+  log_level: list(trace|debug|info|warn|error)
+startup: application
