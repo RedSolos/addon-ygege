@@ -18,15 +18,18 @@ image: uwucode/ygege
 environment:
   YGG_USERNAME: ygg_username
   YGG_PASSWORD: ygg_password
+  BIND_IP: bind_ip
   BIND_PORT: bind_port
   LOG_LEVEL: log_level
 options:
-  ygg_username: ""
-  ygg_password: ""
+  ygg_username: "username"
+  ygg_password: "password"
+  bind_ip: "0.0.0.0"
   bind_port: 8715
   log_level: "info"
 schema:
   ygg_username: str
   ygg_password: password
+  bind_ip: str
   bind_port: "port"
   log_level: "list(trace|debug|info|warn|error)"
