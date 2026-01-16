@@ -15,6 +15,8 @@ ports:
 ports_description:
   8715/tcp: Ygégé web interface port
 image: uwucode/ygege
+volumes:
+  - ./config:/config
 environment:
   YGG_USERNAME: ygg_username
   YGG_PASSWORD: ygg_password
