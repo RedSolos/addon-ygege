@@ -1,18 +1,43 @@
-name: "Ygégé"
+name: ygege
+version: 1.1.0
+slug: ygege
 description: "High-performance indexer for YGG Torrent written in Rust."
-version: "1.0.0"
-slug: "ygege"
-init: false
+url: https://github.com/RedSolos/addon-ygege
+startup: application
+boot: auto
 arch:
   - aarch64
   - amd64
-  - armv7
+init: false
+map:
+  - addon_config:rw
+  - share:rw
+  - media:rw
+  - ssl
 ports:
   8715/tcp: 8715
-map:
-  - config:rw
+ports_description:
+  8715/tcp: ygege web interface port
+image: uwucode/ygege:latest
+webui: "http://[HOST]:[PORT:8715]"
+watchdog: "http://[HOST]:[PORT:8715]/health"
+environment:
+  YGG_USERNAME: "!secret ygg_username"
+  YGG_PASSWORD: "!secret ygg_password"
+  BIND_IP: "0.0.0.0"
+  BIND_PORT: "8715"
+  LOG_LEVEL: "info"
 options:
-  log_level: info
+  ygg_username: ""
+  ygg_password: ""
+  bind_ip: "0.0.0.0"
+  bind_port: 8715
+  log_level: "info"
+  advanced_config: false
 schema:
-  log_level: list(trace|debug|info|warn|error)
-startup: application
+  ygg_username: str
+  ygg_password: password
+  bind_ip: str
+  bind_port: "port"
+  log_level: "list(trace|debug|info|warn|error)"
+  advanced_config: "bool?"
