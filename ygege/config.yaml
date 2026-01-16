@@ -11,15 +11,12 @@ arch:
 init: false
 map:
   - addon_config:rw
-  - share:rw
-  - media:rw
   - ssl
 ports:
   8715/tcp: 8715
 ports_description:
   8715/tcp: ygege web interface port
 image: uwucode/ygege:latest
-webui: "http://[HOST]:[PORT:8715]"
 watchdog: "http://[HOST]:[PORT:8715]/health"
 environment:
   YGG_USERNAME: "!secret ygg_username"
