@@ -10,17 +10,19 @@ FROM ${BUILD_FROM}
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # Install dependencies
-# Ygégé requires OpenSSL and standard certificates
+# Added '--upgrade' to fix version conflicts with libcrypto3/libssl3
 RUN \
-    apk add --no-cache \
+    apk add --no-cache --upgrade \
         openssl \
         ca-certificates
 
-# Copy Ygégé binary from the official image
+# Copy binary
 COPY --from=source /app/ygege /usr/local/bin/ygege
 
-# Copy root filesystem (startup scripts)
+# Copy root filesystem
 COPY rootfs /
+
+# ... rest of your Dockerfile (ARG, LABEL, etc.)
 
 # Build arguments
 ARG BUILD_ARCH
