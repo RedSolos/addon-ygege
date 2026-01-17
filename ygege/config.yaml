@@ -15,7 +15,6 @@ ports:
   8715/tcp: 8715
 ports_description:
   8715/tcp: Ygégé web interface port
-image: uwucode/ygege
 options:
   ygg_username: "username"
   ygg_password: "password"
