@@ -11,38 +11,31 @@ fi
 
 bashio::log.info "Starting y-gege addon..."
 
-# Read configuration from Home Assistant
-USERNAME="$(bashio::config 'username')"
-PASSWORD="$(bashio::config 'password')"
-BIND_PORT="$(bashio::config 'bind_port')"
-LOG_LEVEL="$(bashio::config 'log_level')"
+# Read configuration from Home Assistant and export as environment variables
+export YGG_USERNAME="$(bashio::config 'username')"
+export YGG_PASSWORD="$(bashio::config 'password')"
+export BIND_IP="0.0.0.0"
+export BIND_PORT="$(bashio::config 'bind_port')"
+export LOG_LEVEL="$(bashio::config 'log_level')"
+
+# Optional configurations with defaults
+if bashio::config.has_value 'tmdb_token'; then
+    export TMDB_TOKEN="$(bashio::config 'tmdb_token')"
+fi
+
+if bashio::config.has_value 'ygg_domain'; then
+    export YGG_DOMAIN="$(bashio::config 'ygg_domain')"
+fi
+
+if bashio::config.has_value 'turbo_enabled'; then
+    export TURBO_ENABLED="$(bashio::config 'turbo_enabled')"
+fi
 
 # Log configuration (without sensitive data)
-bashio::log.info "Username: ${USERNAME}"
+bashio::log.info "Username: ${YGG_USERNAME}"
 bashio::log.info "Bind port: ${BIND_PORT}"
 bashio::log.info "Log level: ${LOG_LEVEL}"
 
-# Create y-gege config.json in the addon_config directory
-YGEGE_CONFIG_DIR="/data"
-mkdir -p "${YGEGE_CONFIG_DIR}"
-
-# Write y-gege configuration file
-cat > "${YGEGE_CONFIG_DIR}/config.json" <<EOF
-{
-    "username": "${USERNAME}",
-    "password": "${PASSWORD}",
-    "bind_ip": "0.0.0.0",
-    "bind_port": ${BIND_PORT},
-    "log_level": "${LOG_LEVEL}",
-    "tmdb_token": null,
-    "ygg_domain": null,
-    "turbo_enabled": null
-}
-EOF
-
-bashio::log.info "Configuration file created at ${YGEGE_CONFIG_DIR}/config.json"
-
-# Set working directory and start y-gege
-cd "${YGEGE_CONFIG_DIR}"
+# Start the original y-gege application with environment variables
 bashio::log.info "Starting y-gege server..."
-exec /usr/local/bin/ygege
+exec /app/ygege

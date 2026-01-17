@@ -1,38 +1,8 @@
 ARG BUILD_FROM
 FROM $BUILD_FROM
 
-# Set shell
-SHELL ["/bin/bash", "-o", "pipefail", "-c"]
-
-# Install runtime dependencies
-RUN apk add --no-cache \
-    curl \
-    ca-certificates
-
-# Download and install y-gege binary
-ARG BUILD_ARCH
-RUN set -eux; \
-    case "${BUILD_ARCH}" in \
-        amd64) \
-            YGEGE_ARCH="x86_64-unknown-linux-musl" \
-            ;; \
-        aarch64) \
-            YGEGE_ARCH="aarch64-unknown-linux-musl" \
-            ;; \
-        *) \
-            echo "Unsupported architecture: ${BUILD_ARCH}"; \
-            exit 1 \
-            ;; \
-    esac; \
-    curl -J -L -o /tmp/ygege.tar.gz \
-        "https://github.com/UwUDev/ygege/releases/latest/download/ygege-${YGEGE_ARCH}.tar.gz"; \
-    tar -xzf /tmp/ygege.tar.gz -C /usr/local/bin/; \
-    chmod +x /usr/local/bin/ygege; \
-    rm -f /tmp/ygege.tar.gz
-
-# Create necessary directories
-RUN mkdir -p /app/sessions \
-    && mkdir -p /config
+# Install bashio for Home Assistant integration
+RUN apk add --no-cache bashio
 
 # Copy run script
 COPY run.sh /
