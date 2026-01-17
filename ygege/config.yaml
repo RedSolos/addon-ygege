@@ -20,14 +20,8 @@ options:
   password: "password"
   bind_port: 8715
   log_level: "info"
-  tmdb_token: null
-  ygg_domain: null
-  turbo_enabled: null
 schema:
   username: str
   password: password
   bind_port: "port"
   log_level: "list(trace|debug|info|warn|error)"
-  tmdb_token: "str?"
-  ygg_domain: "str?"
-  turbo_enabled: "bool?"
