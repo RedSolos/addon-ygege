@@ -16,9 +16,6 @@ ports:
 ports_description:
   8715/tcp: Ygégé web interface port
 image: uwucode/ygege
-environment:
-  BIND_PORT: bind_port
-  LOG_LEVEL: log_level
 options:
   ygg_username: "username"
   ygg_password: "password"
