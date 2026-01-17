@@ -6,9 +6,8 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # Install runtime dependencies
 RUN apk add --no-cache \
-    curl=8.14.1-r2 \
-    ca-certificates=20241010-r0 \
-    bash=5.2.37-r0
+    curl \
+    ca-certificates
 
 # Download and install y-gege binary
 ARG BUILD_ARCH
