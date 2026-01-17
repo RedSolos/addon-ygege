@@ -1,9 +1,17 @@
 #!/bin/sh
+CONFIG_PATH=/data/options.json
+TARGET="$(bashio::config 'target')"
 
-# 1. On lit le fichier options.json généré par Home Assistant
-# On utilise 'jq' pour extraire les valeurs proprement
-USER=$(jq --raw-output '.ygg_username' /data/options.json)
-PASS=$(jq --raw-output '.ygg_password' /data/options.json)
+# On vérifie que le fichier existe
+if [ ! -f "$CONFIG_PATH" ]; then
+    echo "Le fichier $CONFIG_PATH n'existe pas"
+    exit 1
+fi
+
+
+# 1. On lit les valeurs du fichier JSON avec bashio
+USER="$(bashio::config 'username')"
+PASS="$(bashio::config 'password')"
 
 echo "Démarrage du container avec l'utilisateur: $USER"
 
