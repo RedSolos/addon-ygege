@@ -1,25 +1,27 @@
-#!/bin/sh
-CONFIG_PATH=/data/options.json
-TARGET="$(bashio::config 'target')"
+#!/usr/bin/with-contenv bashio
 
-# On vérifie que le fichier existe
+# Set CONFIG_PATH for Home Assistant addon
+CONFIG_PATH=/data/options.json
+
+# Check if config file exists
 if [ ! -f "$CONFIG_PATH" ]; then
-    echo "Le fichier $CONFIG_PATH n'existe pas"
+    bashio::log.fatal "Configuration file ${CONFIG_PATH} not found!"
     exit 1
 fi
 
+bashio::log.info "Starting y-gege addon..."
 
-# 1. On lit les valeurs du fichier JSON avec bashio
-USER="$(bashio::config 'username')"
-PASS="$(bashio::config 'password')"
+# Read configuration from Home Assistant and export as environment variables
+export YGG_USERNAME="$(bashio::config 'username')"
+export YGG_PASSWORD="$(bashio::config 'password')"
+export BIND_PORT="$(bashio::config 'bind_port')"
+export LOG_LEVEL="$(bashio::config 'log_level')"
 
-echo "Démarrage du container avec l'utilisateur: $USER"
+# Log configuration (without sensitive data)
+bashio::log.info "Username: ${YGG_USERNAME}"
+bashio::log.info "Bind port: ${BIND_PORT}"
+bashio::log.info "Log level: ${LOG_LEVEL}"
 
-# 2. On exporte les variables exactement comme le container les attend
-export YGG_USERNAME="$USER"
-export YGG_PASSWORD="$PASS"
-
-# 3. On lance la commande originale de l'image
-# IMPORTANT : Remplace '/start-app.sh' par la commande 
-# que ton image lance habituellement (regarde le ENTRYPOINT ou CMD du Dockerfile original)
+# Start the original application
+# Replace with the actual command from the original image
 exec /init

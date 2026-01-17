@@ -16,12 +16,12 @@ ports:
 ports_description:
   8715/tcp: Ygégé web interface port
 options:
-  ygg_username: "username"
-  ygg_password: "password"
+  username: "username"
+  password: "password"
   bind_port: 8715
   log_level: "info"
 schema:
-  ygg_username: str
-  ygg_password: password
+  username: str
+  password: password
   bind_port: "port"
   log_level: "list(trace|debug|info|warn|error)"
