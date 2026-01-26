@@ -1,7 +1,7 @@
-name: y-gege
+name: Ygégé
+description: High-performance indexer for YGG Torrent written in Rust
 version: latest
 slug: ygege
-description: High-performance indexer for YGG Torrent written in Rust
 url: https://github.com/RedSolos/addon-ygege
 arch:
   - aarch64
@@ -9,19 +9,11 @@ arch:
 init: false
 map:
   - addon_config:rw
-  - ssl
   - share:rw
 ports:
   8715/tcp: 8715
 ports_description:
   8715/tcp: Ygégé web interface port
-options:
-  username: "username"
-  password: "password"
-  bind_port: 8715
-  log_level: "info"
-schema:
-  username: str
-  password: password
-  bind_port: "port"
-  log_level: "list(trace|debug|info|warn|error)"
+host_network: true
+webui: http://[HOST]:[PORT:8715]
+image: uwucode/ygege
