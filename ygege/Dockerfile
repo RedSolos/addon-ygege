@@ -1,7 +1,7 @@
 FROM uwucode/ygege:latest
 
 # Install jq to parse the options.json file
-RUN apk add --no-cache jq
+RUN apt-get update && apt-get install -y jq && rm -rf /var/lib/apt/lists/*
 
 # Copy data for add-on
 COPY run.sh /run.sh
