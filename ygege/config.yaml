@@ -7,6 +7,8 @@ arch:
   - aarch64
   - amd64
 init: false
+env:
+  - LOG_LEVEL=trace
 map:
   - addon_config:rw
   - share:rw
@@ -14,6 +16,5 @@ ports:
   8715/tcp: 8715
 ports_description:
   8715/tcp: Ygégé web interface port
-host_network: true
 webui: http://[HOST]:[PORT:8715]
 image: uwucode/ygege
