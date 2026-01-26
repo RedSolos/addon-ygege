@@ -17,4 +17,11 @@ ports:
 ports_description:
   8715/tcp: Ygégé web interface port
 webui: http://[HOST]:[PORT:8715]
-image: uwucode/ygege
+# image: uwucode/ygege
+build: .
+options:
+  username: ""
+  password: ""
+schema:
+  username: str
+  password: str
