@@ -1,17 +1,32 @@
 #!/bin/sh
 
-# Extract configuration options from /data/options.json
-echo "Extracting configuration..."
-USERNAME=$(jq --raw-output '.username // empty' /data/options.json)
-PASSWORD=$(jq --raw-output '.password // empty' /data/options.json)
+# Check if /data/options.json exists (Home Assistant Add-on)
+if [ -f /data/options.json ]; then
+    echo "Extracting configuration from /data/options.json..."
+    USERNAME=$(jq --raw-output '.username // empty' /data/options.json)
+    PASSWORD=$(jq --raw-output '.password // empty' /data/options.json)
+    
+    if [ -n "$USERNAME" ]; then
+        export YGG_USERNAME="$USERNAME"
+    fi
+    if [ -n "$PASSWORD" ]; then
+        export YGG_PASSWORD="$PASSWORD"
+    fi
+fi
 
-if [ -z "$USERNAME" ] || [ -z "$PASSWORD" ]; then
-    echo "ERROR: Username or Password not set in Add-on Configuration!"
-    echo "Please configure the add-on options in Home Assistant."
+# Fallback to existing environment variables if not set by config
+if [ -z "$YGG_USERNAME" ] || [ -z "$YGG_PASSWORD" ]; then
+    echo "ERROR: valid YGG_USERNAME and YGG_PASSWORD not found!"
+    echo "Please configure the add-on options or set environment variables."
+    exit 1
 else
-    echo "Configuration found. Exporting environment variables..."
-    export YGG_USERNAME="$USERNAME"
-    export YGG_PASSWORD="$PASSWORD"
+    echo "Configuration found."
+    
+    # Generate config.json in /app
+    echo "Generating /app/config.json..."
+    mkdir -p /app
+    jq -n --arg user "$YGG_USERNAME" --arg pass "$YGG_PASSWORD" \
+        '{username: $user, password: $pass}' > /app/config.json
 fi
 
 # Start Ygégé
