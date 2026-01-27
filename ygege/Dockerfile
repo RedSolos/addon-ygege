@@ -14,13 +14,10 @@ ARG TARGETARCH
 
 # Install runtime dependencies including jq for the addon
 # S6 base image already includes many utils, but we ensure what we need
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN apk add --no-cache \
     ca-certificates \
     curl \
-    jq \
-    && apt-get clean autoclean --yes \
-    && apt-get autoremove --yes \
-    && rm -rf /var/cache/apt/archives* /var/lib/apt/lists/*
+    jq
 
 WORKDIR /app
 
