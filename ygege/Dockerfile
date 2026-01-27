@@ -1,10 +1,11 @@
+ARG BUILD_FROM=ghcr.io/hassio-addons/debian-base:7.2.0
+
 # Source stage: Pull binary from official image
 # This avoids compiling from source (which requires source files not present in the addon repo)
 FROM uwucode/ygege:latest AS source
 
 # Runtime stage (multi-arch)
 # We use the Home Assistant base image to get S6 overlay (Sonarr schema)
-ARG BUILD_FROM=ghcr.io/hassio-addons/debian-base:7.2.0
 # hadolint ignore=DL3006
 FROM ${BUILD_FROM}
 
